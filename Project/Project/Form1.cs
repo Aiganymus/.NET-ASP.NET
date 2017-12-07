@@ -54,14 +54,14 @@ namespace Project
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 if (row.Cells[0].Value != null && ((row.Cells[0].Value.ToString() == name && row.Cells[1].Value.ToString() == surname && row.Cells[5].Value.ToString() == gender) || row.Cells[4].Value.ToString() == email))
-                {                    
+                {
                     hasSameValue = true;
                     break;
                 }
             }
 
             bool isEmail = Regex.IsMatch(email, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-            
+
             if (isEmail)
             {
                 if (!hasSameValue)
@@ -74,7 +74,7 @@ namespace Project
                         StringBuilder csv = new StringBuilder();
                         csv.AppendLine(student);
                         File.AppendAllText(path, csv.ToString());
-                        
+
                     }
                     else MessageBox.Show("Please, fill all the fields!!!");
                 }

@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "Table";
+}
+
+<form class="form-horizontal" id="form">
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label for="name">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="col-sm-3">
+            <label for="surname">Surname:</label>
+            <input type="text" class="form-control" id="surname" name="surname" required>
+        </div>
+        <div class="col-sm-3">
+            <label for="email">Email address:</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label for="date">Birthday:</label>
+            <input type="date" class="form-control" id="date" name="date" required>
+        </div>
+        <div class="col-sm-3">
+            <label for="select">City</label>
+            <select class="form-control" id="select" name="city" required>
+                <option>Almaty</option>
+                <option>Seoul</option>
+                <option>Tokyo</option>
+                <option>New-York</option>
+                <option>Moskow</option>
+            </select>
+        </div>
+        <div class="col-sm-3">
+            <label for="input-type">Gender:</label>
+            <div id="input-type" class="row">
+                <div class="radio-inline">
+                    <label class="radio-inline"><input type="radio" name="optradio" value="female" checked>Female</label>
+                </div>
+                <div class="radio-inline">
+                    <label class="radio-inline"><input type="radio" name="optradio" value="male">Male</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 text-center" style="margin-bottom:50px">
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="reset" class="btn btn-danger">Reset</button>
+    </div>
+</form>
+
+<table class="table table-hover table-bordered" id="myTable">
+    <thead>
+        <tr>
+            <th>Name</th>  
+            <th>Surname</th>
+            <th>Gender</th>
+            <th>City</th>
+            <th>Birthday</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+
+@Scripts.Render("~/bundles/jquery")
+
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            url: "/api/New/",
+            type: "GET",
+            success: function (response) {
+                console.log("GET", response);
+                response.forEach(function(response) {
+                    $('#myTable tbody').append(
+                        '<tr><td>' + response[0] + '</td>' +
+                            '<td>' + response[1] + '</td>' +
+                            '<td>' + response[2] + '</td>' +
+                            '<td>' + response[3] + '</td>' +
+                            '<td>' + response[4] + '</td>' +
+                            '<td>' + response[5] + '</td></tr>');
+                })
+            }
+        })
+
+        $("#form").submit(function (e) {
+            e.preventDefault();
+
+            var formData = JSON.stringify($('#form').serializeArray())
+            
+            $.ajax({
+                type: "POST",
+                url: "/api/New/",
+                data: "=" + formData, 
+                success: function (data) {
+                    $('#myTable tbody').append('<tr></tr>');
+                    data.forEach(function (response) {
+                        $('#myTable tbody tr:last').append(
+                            '<td>' + response + '</td>');
+                    })
+                    console.log("POST", "success")                   
+                }
+            });           
+        });
+    });
+</script>

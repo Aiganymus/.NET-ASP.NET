@@ -1,0 +1,36 @@
+﻿@model IEnumerable<WebApplication4.Models.Group>
+
+<h2>All groups</h2>
+@Html.ActionLink("Create group", "CreateGroup")
+@foreach (var item in Model)
+{
+    <div class="links">
+        <img src="@Url.Content(item.Image)" width="100" height="100" multiple />
+        <span>@item.Name</span>
+        <button class="btn-primary" value="Open chat">
+            @Html.ActionLink("Open chat", "GroupChat", new { id = item.Id })
+        </button>
+    </div>
+}
+
+<style>
+    .links {
+        margin: 15px 0;
+        font-size: 20px;
+        border: 2px solid black;
+        padding: 20px;
+    }
+
+    span {
+        font-weight: bold;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    button a {
+        color: white
+    }
+</style>
+
